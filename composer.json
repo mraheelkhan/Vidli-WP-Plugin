@@ -1,0 +1,11 @@
+{
+    "name": "vidli/vidli-plugin",
+    "description": "A Vidli plugin for demonstration of wordpress plugins",
+    "type": "project",
+    "license": "GPL",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": { "Inc\\" : "./inc" }
+    }
+}

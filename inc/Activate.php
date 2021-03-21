@@ -2,12 +2,11 @@
 /**
  * @package VidliPlugin
  */
+namespace Inc;
 
-
- class VidliPluginActivate{
+ class Activate{
 
     public static function activate(){
-        echo "test";
         flush_rewrite_rules();
     }
  }
