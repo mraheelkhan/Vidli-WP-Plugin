@@ -8,7 +8,7 @@ Plugin URI: https://www.vidli.com
 Description: Customize WordPress with powerful, professional and intuitive fields.
 Version: 1.0.0
 Author: Raheel Khan
-Author URI: https://www.vidli.com
+Author URI: https://www.mraheelkhan.com
 Text Domain: vidli
 */
 
@@ -21,15 +21,33 @@ if( !defined('ABSPATH')){
 // }
 
 class Vidli{
+    public $plugin;
     function __construct(){
         $this->register_post_type();
+        $this->plugin = plugin_basename( __FILE__ );
     }
 
 
     function register(){
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+        add_action( 'admin_menu', [$this, 'add_admin_pages']);
     }
 
+    public function add_admin_pages()
+    {
+        add_menu_page( "Vidli Plugin", "Vidli", "manage_options", 'vidli_plugin', [$this, 'admin_index'], 'dashicons-playlist-video', null );
+        
+        add_filter( 'plugin_action_links_' . $this->plugin, [$this, 'admin_settings_link']);
+    }
+
+    public function admin_index(){
+        require_once plugin_dir_path( __FILE__ ) . 'templates/admin.php';
+    }
+    public function admin_settings_link($links){
+        $settings_link = '<a href="admin.php?page=vidli_plugin">Settings</a>';
+        array_push($links, $settings_link);
+        return $links;
+    }
     protected function register_post_type(){
         add_action('init', [$this, 'register_movie_post_type']);
     }
