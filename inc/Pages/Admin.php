@@ -1,22 +1,19 @@
 <?php
-
+/**
+ * @package VidliPlugin
+ */
 namespace Inc\Pages;
+use \Inc\Base\BaseController;
 /**
  * Admin Page that register hooks on admin dashboard side. 
  */
 
-class Admin
+class Admin extends \Inc\Base\BaseController
 {
-
-    /** constructor */
-    function __construct(){
-        
-    }
-
     /**
      * register the menu via add_action hook
      */
-    function register(){
+    public function register(){
         add_action( 'admin_menu', [$this,'add_admin_pages'] );
     }
 
@@ -34,7 +31,7 @@ class Admin
      * load admin side template
      */
     public function admin_index(){
-        require_once PLUGIN_PATH . 'templates/admin.php';
+        require_once  $this->plugin_path . 'templates/admin.php';
     }
     
 }

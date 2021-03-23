@@ -3,8 +3,8 @@
  * @package VidliPlugin
  */
 namespace Inc\Base;
-/** Deactivate class that initiate upon plugin activation */
 
+/** Deactivate class that initiate upon plugin activation */
  class Activate{
 
     /**

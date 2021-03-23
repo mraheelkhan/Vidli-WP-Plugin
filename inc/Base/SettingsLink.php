@@ -3,17 +3,19 @@
  * @package VidliPlugin
  */
 namespace Inc\Base;
+
+use Inc\Base\BaseController;
 /** 
  * 
  */
 
- class SettingsLink{
+ class SettingsLink extends BaseController{
 
     /**
      * register function
      */
     public function register(){
-        add_filter( 'plugin_action_links_' . PLUGIN, [$this, 'settings_link']);
+        add_filter( 'plugin_action_links_' . $this->plugin, [$this, 'settings_link']);
     }
 
     public function settings_link($links){
