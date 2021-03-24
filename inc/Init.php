@@ -40,7 +40,7 @@ namespace Inc;
          * services iteration.
          */
         private static function instantiate($class){
-            $service = new $class;
+            $service = new $class();
             return $service;
         }
  }
