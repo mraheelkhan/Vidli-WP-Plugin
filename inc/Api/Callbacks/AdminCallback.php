@@ -25,4 +25,18 @@ class AdminCallback extends BaseController{
     {
         return require_once("$this->plugin_path/templates/admin.php");
     }
+
+    public function vidliOptionsGroup($input)
+    {
+        return $input;
+    }
+    public function vidliAdminSection($input)
+    {
+        echo "check this feature";
+    }
+    public function vidliTextExample($input)
+    {
+        $value = esc_attr( get_option('text_example') );
+        echo "<input type='text' class='regular-text' name='text_example' value='$value' placeholder='Text example'>";
+    }
 }

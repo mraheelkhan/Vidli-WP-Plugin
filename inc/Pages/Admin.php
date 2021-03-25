@@ -29,6 +29,10 @@ class Admin extends BaseController
 
         $this->setSubpages();
 
+        $this->setSettings();
+        $this->setSections();
+        $this->setFields();
+
         $this->settings->addPages($this->pages)->withSubTitle('Dashboard')->addSubPages($this->subpages)->register();
     }
 
@@ -74,21 +78,49 @@ class Admin extends BaseController
             ]
         ];
     }
-    /**
-     *  add menu page on admin side 
-     */
-    // public function add_admin_pages()
-    // {
-    //     add_menu_page( "Vidli Plugin", "Vidli", "manage_options", 'vidli_plugin', [$this, 'admin_index'], 'dashicons-playlist-video', null );
-        
-    //     // add_filter( 'plugin_action_links_' . $this->plugin, [$this, 'admin_settings_link']);
-    // }
 
-    /**
-     * load admin side template
-     */
-    // public function admin_index(){
-    //     require_once  $this->plugin_path . 'templates/admin.php';
-    // }
+    public function setSettings()
+    {
+        $args = [
+                [
+                'option_group' => 'vidli_options_group',
+                'option_name' => 'text_example',
+                'callback' => [$this->callback, 'vidliOptionsGroup']
+                ]
+            ];
+
+        $this->settings->setSettings($args);
+    }
+    public function setSections()
+    {
+        $args = [
+                [
+                'id' => 'vidli_admin_index',
+                'title' => 'Settings',
+                'callback' => [$this->callback, 'vidliAdminSection'],
+                'page' => 'vidli_plugin'
+                ]
+            ];
+
+        $this->settings->setSections($args);
+    }
+    public function setFields()
+    {
+        $args = [
+                [
+                'id' => 'text_example',
+                'title' => 'Text Example',
+                'callback' => [$this->callback, 'vidliTextExample'],
+                'page' => 'vidli_plugin',
+                'section' => 'vidli_admin_index',
+                'args' => [
+                    'label_for' => 'text_example',
+                    'class' => 'example-class'
+                ]
+                ]
+            ];
+
+        $this->settings->setFields($args);
+    }
     
 }
