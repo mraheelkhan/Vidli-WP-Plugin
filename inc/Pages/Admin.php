@@ -3,8 +3,9 @@
  * @package VidliPlugin
  */
 namespace Inc\Pages;
-use \Inc\Base\BaseController;
-use \Inc\Api\SettingsApi;
+use Inc\Base\BaseController;
+use Inc\Api\SettingsApi;
+use Inc\Api\Callbacks\AdminCallback;
 /**
  * Admin Page that register hooks on admin dashboard side. 
  */
@@ -14,23 +15,38 @@ class Admin extends BaseController
     public $settings;
     public $pages;
     public $subpages;
+    public $callback;
+
     /**
-     * 
+     * register the menu via add_action hook
      */
-    public function __construct()
-    {
+    public function register(){
+        // add_action( 'admin_menu', [$this,'add_admin_pages'] );
         $this->settings = new SettingsApi();
+        $this->callback = new AdminCallback();
+
+        $this->setPages();
+
+        $this->setSubpages();
+
+        $this->settings->addPages($this->pages)->withSubTitle('Dashboard')->addSubPages($this->subpages)->register();
+    }
+
+    public function setPages()
+    {
         $this->pages = [
             [
                 'page_title' => "Vidli Plugin", 
                 'menu_title' => "Vidli", 
                 'capability' => "manage_options", 
                 'menu_slug' => 'vidli_plugin',
-                'callback' => function(){ echo "<h1> Vidli2 Plugin</h1>";},// [$this, 'admin_index'], 
+                'callback' => [$this->callback, 'adminDashboard'], 
                 'icon_url' => 'dashicons-playlist-video', 
                 'position' => null
             ]
         ];
+    }
+    public function setSubpages(){
         $this->subpages = [
             [
                 'parent_slug' =>'vidli_plugin',
@@ -38,7 +54,7 @@ class Admin extends BaseController
                 'menu_title' => "CPT", 
                 'capability' => "manage_options", 
                 'menu_slug' => 'vidli_cpt',
-                'callback' => function() { echo '<h1>CPT Manager</h1>'; }
+                'callback' => [$this->callback, 'adminCPT']
             ], 
             [
                 'parent_slug' =>'vidli_plugin',
@@ -46,7 +62,7 @@ class Admin extends BaseController
                 'menu_title' => "Taxonomies", 
                 'capability' => "manage_options", 
                 'menu_slug' => 'vidli_taxonomies',
-                'callback' => function(){ echo "<h1>Taxonomies Manager</h1>";}
+                'callback' => [$this->callback, 'adminTaxonomies']
             ],
             [
                 'parent_slug' =>'vidli_plugin',
@@ -54,19 +70,10 @@ class Admin extends BaseController
                 'menu_title' => "Widgets", 
                 'capability' => "manage_options", 
                 'menu_slug' => 'vidli_widgets',
-                'callback' => function(){ echo "<h1>Widgets Manager</h1>";}
+                'callback' => [$this->callback, 'adminWidgets']
             ]
         ];
     }
-    /**
-     * register the menu via add_action hook
-     */
-    public function register(){
-        // add_action( 'admin_menu', [$this,'add_admin_pages'] );
-        
-        $this->settings->addPages($this->pages)->withSubTitle('Dashboard')->addSubPages($this->subpages)->register();
-    }
-
     /**
      *  add menu page on admin side 
      */

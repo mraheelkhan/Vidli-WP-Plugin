@@ -61,4 +61,13 @@ class SettingsApi {
 			add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['callback'] );
 		}
     }
+
+    public function registerCustomFields()
+    {
+        // register settings
+        register_setting( $option_group:string, $option_name:string, $args:array )
+        // add settings section
+
+        // add setting field
+    }
 }

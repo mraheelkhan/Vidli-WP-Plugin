@@ -1,1 +1,1 @@
-<h1> Vidli Plugin </h1>
+<h1> Vidli Plugin Dashboard</h1>
